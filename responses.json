@@ -1,0 +1,194 @@
+{
+  "greetings": {
+    "patterns": [
+      "hello",
+      "hi",
+      "hey",
+      "good morning",
+      "good evening",
+      "howdy",
+      "greetings"
+    ],
+    "responses": [
+      "Hi! How can I help you today?",
+      "Hello! Welcome to AI Chatbot. Ask me anything!",
+      "Hey there! What would you like to know?"
+    ]
+  },
+  "goodbye": {
+    "patterns": [
+      "bye",
+      "goodbye",
+      "see you",
+      "take care",
+      "exit",
+      "quit"
+    ],
+    "responses": [
+      "Goodbye! Have a great day!",
+      "See you later! Take care!",
+      "Bye! Feel free to come back anytime!"
+    ]
+  },
+  "thanks": {
+    "patterns": [
+      "thanks",
+      "thank you",
+      "appreciate it",
+      "thx"
+    ],
+    "responses": [
+      "You are welcome!",
+      "Happy to help!",
+      "Anytime! Let me know if you need more help."
+    ]
+  },
+  "about": {
+    "patterns": [
+      "who are you",
+      "what are you",
+      "your name",
+      "about you"
+    ],
+    "responses": [
+      "I am an AI Chatbot built with Flask and Machine Learning concepts!",
+      "I am your friendly AI assistant, here to chat with you!"
+    ]
+  },
+  "machine_learning": {
+    "patterns": [
+      "what is machine learning",
+      "machine learning",
+      "ml",
+      "define ml"
+    ],
+    "responses": [
+      "Machine Learning is a branch of AI that allows systems to learn from data and improve from experience without being explicitly programmed.",
+      "ML is a subset of Artificial Intelligence focused on building systems that learn from data patterns."
+    ]
+  },
+  "ai": {
+    "patterns": [
+      "what is ai",
+      "artificial intelligence",
+      "define ai",
+      "what is artificial intelligence"
+    ],
+    "responses": [
+      "Artificial Intelligence (AI) is the simulation of human intelligence by machines, enabling them to think, learn, and make decisions.",
+      "AI refers to computer systems that can perform tasks typically requiring human intelligence."
+    ]
+  },
+  "python": {
+    "patterns": [
+      "what is python",
+      "python language",
+      "tell me about python"
+    ],
+    "responses": [
+      "Python is a high-level, interpreted programming language known for its simplicity and versatility.",
+      "Python is one of the most popular programming languages, great for beginners and experts alike!"
+    ]
+  },
+  "flask": {
+    "patterns": [
+      "what is flask",
+      "flask framework",
+      "tell me about flask"
+    ],
+    "responses": [
+      "Flask is a lightweight Python web framework used to build web applications quickly and easily.",
+      "Flask is a micro web framework for Python, perfect for small to medium projects like this chatbot!"
+    ]
+  },
+  "help": {
+    "patterns": [
+      "help",
+      "what can you do",
+      "features",
+      "commands"
+    ],
+    "responses": [
+      "I can chat about: AI, Machine Learning, Python, Flask, and general conversation! Try asking me anything.",
+      "Ask me about technology, AI, ML, or just say hello! I am here to help."
+    ]
+  },
+  "weather": {
+    "patterns": [
+      "weather",
+      "what is the weather",
+      "temperature today"
+    ],
+    "responses": [
+      "I cannot check live weather yet, but you can try weather.com or Google Weather!",
+      "I do not have real-time weather data, but I would suggest checking a weather app!"
+    ]
+  },
+  "joke": {
+    "patterns": [
+      "tell me a joke",
+      "joke",
+      "funny",
+      "make me laugh"
+    ],
+    "responses": [
+      "Why do programmers prefer dark mode? Because light attracts bugs!",
+      "Why was the computer cold? It left its Windows open!",
+      "What is a computer favorite snack? Microchips!"
+    ]
+  },
+  "deep_learning": {
+    "patterns": [
+      "what is deep learning",
+      "deep learning",
+      "neural network",
+      "what are neural networks"
+    ],
+    "responses": [
+      "Deep Learning is a subset of Machine Learning that uses neural networks with many layers to learn complex patterns from large amounts of data.",
+      "Neural networks are computing systems inspired by the human brain, consisting of interconnected nodes that process information in layers."
+    ]
+  },
+  "html": {
+    "patterns": [
+      "what is html",
+      "html",
+      "hypertext markup language"
+    ],
+    "responses": [
+      "HTML (HyperText Markup Language) is the standard language for creating web pages.",
+      "HTML is the backbone of every website. It uses tags to structure content like headings, paragraphs, images, and links."
+    ]
+  },
+  "css": {
+    "patterns": [
+      "what is css",
+      "css",
+      "cascading style sheets"
+    ],
+    "responses": [
+      "CSS (Cascading Style Sheets) is used to style and layout web pages. It controls colors, fonts, spacing, and responsive design.",
+      "CSS makes websites look beautiful! It separates design from content in web development."
+    ]
+  },
+  "javascript": {
+    "patterns": [
+      "what is javascript",
+      "javascript",
+      "js"
+    ],
+    "responses": [
+      "JavaScript is a programming language that makes web pages interactive.",
+      "JavaScript is one of the three core web technologies along with HTML and CSS. It adds interactivity to websites."
+    ]
+  },
+  "default": {
+    "patterns": [],
+    "responses": [
+      "I am not sure I understand. Could you rephrase that?",
+      "Interesting! Tell me more or try asking something else.",
+      "I am still learning! Can you ask in a different way?",
+      "Sorry, I did not get that. Try asking about AI, ML, Python, or Flask!"
+    ]
+  }
+}
