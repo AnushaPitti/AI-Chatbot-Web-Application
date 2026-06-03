@@ -19,8 +19,11 @@ An AI-powered chatbot web application built with **Flask, HTML, CSS, JavaScript*
 - [Login Credentials](#-login-credentials)
 - [Screenshots](#-screenshots)
 - [Sample Output](#-sample-output)
+- [How the AI Works](#-how-the-ai-works)
+- [API Endpoints](#-api-endpoints)
 - [Contributing](#-contributing)
 - [License](#-license)
+- [Author](#-author)
 
 ---
 
@@ -93,6 +96,17 @@ AI_Chatbot/
 ├── static/
 │   └── style.css          # Styling - Dark mode, responsive, animations
 │
+├── screenshots/           # Project screenshots
+│   ├── welcome screenshot.png
+│   ├── login credentials.png
+│   ├── voice recognition.png
+│   ├── dark mode enable.png
+│   ├── chat history.png
+│   ├── history cleared.png
+│   ├── ending conversation.png
+│   ├── logout.png
+│   └── CMD.png
+│
 └── README.md              # Project documentation (this file)
 ```
 
@@ -118,7 +132,7 @@ AI_Chatbot/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR-USERNAME/AI-Chatbot-Web-Application.git
+git clone https://github.com/AnushaPitti/AI-Chatbot-Web-Application.git
 
 # 2. Navigate to project folder
 cd AI-Chatbot-Web-Application
@@ -159,25 +173,32 @@ http://localhost:5000
 
 ## 📸 Screenshots
 
-### 🏠 Welcome / Login Page
-![Welcome Page](screenshots/welcome.png)
+### 🏠 Welcome Page
+![Welcome Page](screenshots/welcome%20screenshot.png)
 
-### 💬 Chat Interface (Light Mode)
-![Chat Light](screenshots/chat-light.png)
+### 🔐 Login Credentials
+![Login Credentials](screenshots/login%20credentials.png)
 
-### 🌙 Chat Interface (Dark Mode)
-![Chat Dark](screenshots/chat-dark.png)
+### 🎤 Voice Recognition
+![Voice Recognition](screenshots/voice%20recognition.png)
 
-### 🎤 Voice Input
-![Voice Input](screenshots/voice-input.png)
+### 🌙 Dark Mode
+![Dark Mode](screenshots/dark%20mode%20enable.png)
 
-### 📜 Chat History Sidebar
-![Chat History](screenshots/chat-history.png)
+### 📜 Chat History
+![Chat History](screenshots/chat%20history.png)
 
-### 📱 Mobile Responsive View
-![Mobile View](screenshots/mobile-view.png)
+### 🗑️ History Cleared
+![History Cleared](screenshots/history%20cleared.png)
 
-> 📝 **Note:** To add screenshots, create a `screenshots/` folder in your repository and upload images.
+### 👋 Ending Conversation
+![Ending Conversation](screenshots/ending%20conversation.png)
+
+### 🚪 Logout
+![Logout](screenshots/logout.png)
+
+### 💻 CMD - Running the Server
+![CMD](screenshots/CMD.png)
 
 ---
 
@@ -268,6 +289,7 @@ This project is open source and available under the [MIT License](LICENSE).
 **Pitti Anusha**
 - Internship Project at Think Champ PV LTD
 - Associate Instrumentation Engineer
+- GitHub: [@AnushaPitti](https://github.com/AnushaPitti)
 
 ---
 
