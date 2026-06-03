@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot - Web Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- WELCOME / LOGIN PAGE -->
+<div class="welcome-container" id="welcomePage">
+    <div class="welcome-box">
+        <div class="bot-icon">&#129302;</div>
+        <h1>AI Chatbot</h1>
+        <p>Your intelligent assistant powered by Machine Learning</p>
+
+        <div class="login-form" id="loginForm">
+            <input type="text" id="loginUser" placeholder="Username" autocomplete="off">
+            <input type="password" id="loginPass" placeholder="Password">
+            <p class="error-msg" id="errorMsg"></p>
+            <button class="btn btn-primary" onclick="login()">Login</button>
+            <button class="btn btn-secondary" onclick="showRegister()">Register</button>
+            <button class="btn-guest" onclick="guestLogin()">Continue as Guest</button>
+        </div>
+
+        <div class="login-form" id="registerForm" style="display:none;">
+            <input type="text" id="regUser" placeholder="Choose Username" autocomplete="off">
+            <input type="password" id="regPass" placeholder="Choose Password">
+            <p class="error-msg" id="regErrorMsg"></p>
+            <button class="btn btn-primary" onclick="register()">Create Account</button>
+            <button class="btn btn-secondary" onclick="showLogin()">Back to Login</button>
+        </div>
+    </div>
+</div>
+
+<!-- CHAT APPLICATION -->
+<div class="chat-app" id="chatApp">
+    <div class="chat-header">
+        <div class="left">
+            <div class="bot-avatar">&#129302;</div>
+            <div>
+                <h2>AI Chatbot</h2>
+                <div class="status">&#9679; Online</div>
+            </div>
+        </div>
+        <div class="header-actions">
+            <span class="user-badge" id="userBadge">Guest</span>
+            <button class="icon-btn" onclick="toggleDarkMode()" title="Dark Mode">&#127769;</button>
+            <button class="icon-btn" onclick="toggleHistory()" title="Chat History">&#128220;</button>
+            <button class="icon-btn" onclick="clearChat()" title="Clear Chat">&#128465;</button>
+            <button class="icon-btn" onclick="logout()" title="Logout">&#128682;</button>
+        </div>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+        <div class="message bot">
+            <div class="message-bubble">
+                Welcome to AI Chatbot!<br>
+                I can help you with questions about AI, Machine Learning, Python, Flask, and more!<br>
+                Type <strong>help</strong> to see what I can do.
+                <div class="message-time" id="welcomeTime"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="typing-indicator" id="typingIndicator">
+        <div class="dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+
+    <div class="chat-input-area">
+        <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()" title="Voice Input">&#127908;</button>
+        <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off">
+        <button class="send-btn" onclick="sendMessage()" title="Send">&#10148;</button>
+    </div>
+</div>
+
+<!-- CHAT HISTORY SIDEBAR -->
+<div class="history-sidebar" id="historySidebar">
+    <div class="history-header">
+        <h3>Chat History</h3>
+        <button class="icon-btn" onclick="toggleHistory()">&#10005;</button>
+    </div>
+    <div class="history-content" id="historyContent">
+        <p style="color: var(--text-secondary); text-align:center; margin-top:40px;">No history yet</p>
+    </div>
+    <div style="padding:15px;">
+        <button class="btn btn-secondary" onclick="clearHistory()" style="width:100%;">Clear History</button>
+    </div>
+</div>
+
+<script>
+    var currentUser = null;
+    var isDark = false;
+    var isRecording = false;
+    var recognition = null;
+
+    function getTime() {
+        return new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+    document.getElementById('welcomeTime').textContent = getTime();
+
+    function login() {
+        var username = document.getElementById('loginUser').value.trim();
+        var password = document.getElementById('loginPass').value.trim();
+        var errorMsg = document.getElementById('errorMsg');
+
+        if (!username || !password) {
+            errorMsg.textContent = 'Please enter both username and password!';
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        fetch('/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username: username, password: password})
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.success) {
+                currentUser = data.username;
+                enterChat(data.username);
+            } else {
+                errorMsg.textContent = data.message;
+                errorMsg.style.display = 'block';
+            }
+        });
+    }
+
+    function showRegister() {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('registerForm').style.display = 'flex';
+    }
+
+    function showLogin() {
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('loginForm').style.display = 'flex';
+    }
+
+    function register() {
+        var username = document.getElementById('regUser').value.trim();
+        var password = document.getElementById('regPass').value.trim();
+        var errorMsg = document.getElementById('regErrorMsg');
+
+        if (!username || !password) {
+            errorMsg.textContent = 'Please fill both fields!';
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        fetch('/register', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({username: username, password: password})
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.success) {
+                currentUser = data.username;
+                enterChat(data.username);
+            } else {
+                errorMsg.textContent = data.message;
+                errorMsg.style.display = 'block';
+            }
+        });
+    }
+
+    function guestLogin() {
+        currentUser = 'Guest';
+        enterChat('Guest');
+    }
+
+    function enterChat(username) {
+        document.getElementById('welcomePage').style.display = 'none';
+        document.getElementById('chatApp').style.display = 'flex';
+        document.getElementById('userBadge').textContent = username;
+        loadHistory();
+    }
+
+    function logout() {
+        fetch('/logout', {method: 'POST'});
+        currentUser = null;
+        document.getElementById('chatApp').style.display = 'none';
+        document.getElementById('welcomePage').style.display = 'flex';
+        document.getElementById('loginUser').value = '';
+        document.getElementById('loginPass').value = '';
+        document.getElementById('errorMsg').style.display = 'none';
+        showLogin();
+        var chatMessages = document.getElementById('chatMessages');
+        chatMessages.innerHTML = '<div class="message bot"><div class="message-bubble">Welcome to AI Chatbot!<br>Type <strong>help</strong> to see what I can do.<div class="message-time">' + getTime() + '</div></div></div>';
+    }
+
+    function sendMessage() {
+        var input = document.getElementById('userInput');
+        var message = input.value.trim();
+        if (!message) return;
+
+        addMessage(message, 'user');
+        input.value = '';
+
+        document.getElementById('typingIndicator').style.display = 'block';
+        scrollToBottom();
+
+        fetch('/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({message: message})
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            document.getElementById('typingIndicator').style.display = 'none';
+            addMessage(data.response, 'bot');
+        })
+        .catch(function() {
+            document.getElementById('typingIndicator').style.display = 'none';
+            addMessage('Oops! Something went wrong. Please try again.', 'bot');
+        });
+    }
+
+    function addMessage(text, sender) {
+        var chatMessages = document.getElementById('chatMessages');
+        var div = document.createElement('div');
+        div.className = 'message ' + sender;
+        div.innerHTML = '<div class="message-bubble">' + text + '<div class="message-time">' + getTime() + '</div></div>';
+        chatMessages.appendChild(div);
+        scrollToBottom();
+    }
+
+    function scrollToBottom() {
+        var chat = document.getElementById('chatMessages');
+        chat.scrollTop = chat.scrollHeight;
+    }
+
+    document.getElementById('userInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') sendMessage();
+    });
+
+    document.getElementById('loginPass').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') login();
+    });
+
+    function toggleDarkMode() {
+        isDark = !isDark;
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    }
+
+    function toggleVoice() {
+        var voiceBtn = document.getElementById('voiceBtn');
+
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            alert('Voice input is not supported in your browser. Try Chrome!');
+            return;
+        }
+
+        if (isRecording) {
+            recognition.stop();
+            voiceBtn.classList.remove('recording');
+            isRecording = false;
+            return;
+        }
+
+        var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+
+        recognition.onstart = function() {
+            voiceBtn.classList.add('recording');
+            isRecording = true;
+        };
+
+        recognition.onresult = function(event) {
+            var transcript = event.results[0][0].transcript;
+            document.getElementById('userInput').value = transcript;
+            sendMessage();
+        };
+
+        recognition.onend = function() {
+            voiceBtn.classList.remove('recording');
+            isRecording = false;
+        };
+
+        recognition.onerror = function() {
+            voiceBtn.classList.remove('recording');
+            isRecording = false;
+        };
+
+        recognition.start();
+    }
+
+    function toggleHistory() {
+        document.getElementById('historySidebar').classList.toggle('open');
+        if (document.getElementById('historySidebar').classList.contains('open')) {
+            loadHistory();
+        }
+    }
+
+    function loadHistory() {
+        fetch('/history')
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            var content = document.getElementById('historyContent');
+            if (data.history.length === 0) {
+                content.innerHTML = '<p style="color:var(--text-secondary);text-align:center;margin-top:40px;">No history yet</p>';
+                return;
+            }
+            var html = '';
+            for (var i = 0; i < data.history.length; i++) {
+                var item = data.history[i];
+                html += '<div class="history-item">';
+                html += '<div class="h-user">You: ' + item.user + '</div>';
+                html += '<div class="h-bot">Bot: ' + item.bot + '</div>';
+                html += '<div class="h-time">' + item.time + '</div>';
+                html += '</div>';
+            }
+            content.innerHTML = html;
+        });
+    }
+
+    function clearHistory() {
+        fetch('/clear_history', {method: 'POST'})
+        .then(function() {
+            document.getElementById('historyContent').innerHTML =
+                '<p style="color:var(--text-secondary);text-align:center;margin-top:40px;">History cleared</p>';
+        });
+    }
+
+    function clearChat() {
+        var chatMessages = document.getElementById('chatMessages');
+        chatMessages.innerHTML = '<div class="message bot"><div class="message-bubble">Chat cleared! How can I help you?<div class="message-time">' + getTime() + '</div></div></div>';
+    }
+</script>
+</body>
+</html>
